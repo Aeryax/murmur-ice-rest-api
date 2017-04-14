@@ -2,12 +2,16 @@
 
 const Ice = use('Ice')
 const Env = use('Env')
+const sprintf = use('sprintf-js').sprintf
 const Murmur = use('App/Services/Ice/Murmur').Murmur
+const Logger = use('App/Services/Logger')
+
 
 class Mice {
 
     constructor() {
         this.communicator = undefined;
+        this.logger = Logger.getInstance(this.constructor.name);
     }
 
     * getMeta() {
@@ -32,7 +36,7 @@ class Mice {
             (error) => {
                 switch (error.ice_name()) {
                     default:
-                        // TODO : Handle logging
+                        this.logger.error(sprintf('[mumbleapi]: %s', error))
                         break
                 }
             }
